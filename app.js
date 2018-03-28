@@ -21,7 +21,7 @@ global.allData = allData;
 global.ios = io;
 
 async function populate(){
-    let x = await allData.insert({username:"reejh",password:"31edko9j1",domain:"test",fp_id:"3"});
+    let x = await allData.insert({username:"reejh",password:"31edko9j1",domain:"test",fp_id:"4"});
     console.log(x);
 }
 
@@ -36,5 +36,7 @@ app.use(cookieParser())
 app.use('/api/v1/users', users);
 app.use('/identify',test.identify);
 app.use('/hello',test.hello);
+app.use('/enroll',test.enrollUser);
+app.use('/addDomain',test.addDomain);
 
 module.exports = app;

@@ -1,3 +1,4 @@
+const {identifyEnroll} = require('./util/spawnUtil')
 module.exports = {
     userInfo: {
         fetch: async (domain)=>{
@@ -9,6 +10,8 @@ module.exports = {
         }
     },
     user_fp_id:async ()=>{
-        return '2'
-    }
+        let data =await identifyEnroll()
+        return data
+    },
+    
 }

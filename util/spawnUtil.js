@@ -33,4 +33,37 @@ module.exports= {
         });
     },
 
+    identifyEnroll:async ()=> {
+        let id_prog = spawn('python',['-u','./runnables/identify.py'],{stdio : "pipe"});
+        id_prog.stdout.on('data',async (data)=>{
+            if(String(data).indexOf('>')>=0){
+                ios.to(sockId).emit('stream',{txt:data.toString()});
+            }
+            else {
+                let trimmed_stdout = data.toString().trim();
+                if(!isNaN(trimmed_stdout)){
+                    let fps_i = parseInt(trimmed_stdout);
+                    if(fps_i<20 && fps_i>0){
+                        return(fps_i)
+                    } else {
+                        return 4004
+                    }
+                } else {
+                    return 4004
+                }
+            }
+        });
+    },
+
+    enrollStart:(sockId,domain)=> {
+        let id_prog = spawn('python',['-u','./runnables/run2.py'],{stdio : "pipe"});
+        id_prog.stdout.on('data',async (data)=>{
+            ios.to(sockId).emit('stream',{txt:data.toString()});
+        });
+
+        id_prog.on('exit',(code)=>{
+            ios.to(sockId).emit('stream',{txt:'Process Complete'});
+        });
+    },
+
 }

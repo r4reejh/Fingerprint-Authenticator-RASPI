@@ -29,14 +29,18 @@ module.exports = (io)=>{
             let passWord = req.body['password'];
             let fp_id = await user_fp_id();
 
-            let up = await allData.update({
-                fp_id:String(fp_id),
-                username:username,
-                password:passWord,
-                domain:domain
-            },{upsert:true})
-
-            res.send({message:'added/updated domain info for user'})
+            if(fp_id != 4004){
+                let up = await allData.update({
+                    fp_id:String(fp_id),
+                    username:username,
+                    password:passWord,
+                    domain:domain
+                },{upsert:true})
+                if(up)
+                res.send({message:'added/updated domain info for user'})
+            } else {
+                res.send({message:'Error adding domain'})
+            }
         }
     }
     return routes;
